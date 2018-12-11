@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="app">11</div>
+    <script src="./js/vue.min.js"></script>
+    <script>
+        const Header = {
+            data() {
+                return {
+                    curVal: ''
+                }
+            },
+            template: `<header><b>智能证件照</b><input type="text" placeholder="搜索规格名称、尺寸" v-model="curVal"  @change="search"></header>`,
+            methods: {
+                search() {
+                    this.$emit('selectVal', this.curVal)
+                    console.log(this.curVal)
+                }
+            }
+        }
+        const Nav = {
+            template: `<div class="nav"><span class="active">开始制作</span><span>我的证件照</span><span>冲印订单</span><span>客服</span></div>`
+        }
+        const Photo = {
+            props: ['data'],
+            data() {
+                return {
+                    val: this.val
+                }
+            },
+            template: `<div class="photo">
+            <dl v-for="(i,k) in data" :key="k">
+                <dt>
+                    <img v-bind:src="i.img">
+                </dt>
+                <dd>
+                    <p>{{i.title}}</p>
+                    <h6>{{i.size}}</h6>
+                </dd>
+            </dl>
+            </div>`
+        }
+        const Section = {
+            components: {
+                Nav,
+                Photo
+            },
+            data() {
+                return {
+                    data: [{
+                        title: '一寸',
+                        size: '295*413px',
+                        img: './img/1.png'
+                    }, {
+                        title: '二寸',
+                        size: '413*579px',
+                        img: './img/1.png'
+                    }, {
+                        title: '小二寸',
+                        size: '413*531px',
+                        img: './img/1.png'
+                    }, {
+                        title: '社保证（300DPI）',
+                        size: '358*567px',
+                        img: './img/1.png'
+                    }, {
+                        title: '入学报名',
+                        size: '295*413px',
+                        img: './img/1.png'
+                    }, {
+                        title: '大一寸',
+                        size: '295*413px',
+                        img: './img/1.png'
+                    }, {
+                        title: '身份证照',
+                        size: '358*441px',
+                        img: './img/1.png'
+                    }, {
+                        title: '小一寸',
+                        size: '260*378px',
+                        img: './img/1.png'
+                    }, {
+                        title: '医师电子注册',
+                        size: '354*472px',
+                        img: './img/1.png'
+                    }, {
+                        title: '医保证（300DPI）',
+                        size: '358*441px',
+                        img: './img/1.png'
+                    }, {
+                        title: '驾驶证、驾照',
+                        size: '260*378px',
+                        img: './img/1.png'
+                    }, {
+                        title: '美国签证',
+                        size: '295*413px',
+                        img: './img/1.png'
+                    }],
+                    val: this.val
+                }
+            },
+            template: `<section>
+                <Nav />
+                <p>近期热门规格</p>
+                <Photo :data="data" :val="val"/>
+                </section>`
+        }
+        const Footer = {
+            template: `<footer><span class="active">首页</span><span>充值</span><span>设置</span></footer>`
+        }
+        const vm = new Vue({
+            components: {
+                Header,
+                Section,
+                Footer
+            },
+            data: {
+                data: [],
+                val: ''
+            },
+            template: `<div id="app">
+            <Header @selectVal="something" />
+            <Section :val="val" />
+            <Footer />
+            </div>`,
+            methods: {
+                something(val) {
+                    this.val = val;
+                }
+            }
+        }).$mount('#app');
+    </script>
+</body>
+
+</html>
